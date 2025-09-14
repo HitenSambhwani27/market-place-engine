@@ -1,0 +1,12 @@
+services:
+  market-place-db:
+   container_name: market-place-db
+   environment:
+    - POSTGRES_USER=admin
+    - POSTGRES_PASSWORD=admin
+    - POSTGRES_DB=market-place-db
+   restart: always
+   ports:
+   - "5432:5432"
+   volumes: 
+   - postgres_market_place_db:/var/lib/postgresql/data

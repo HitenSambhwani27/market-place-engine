@@ -1,0 +1,7 @@
+services:
+  market-place-db:
+    image: postgres
+
+
+volumes: 
+  postgres_market_place_db:
