@@ -1,9 +1,13 @@
 ﻿using Catalog.Data;
 using Catalog.Data.Seed;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Extensions;
+using Shared.Interceptors;
 using Shared.Seed;
 
 namespace Catalog
@@ -13,9 +17,22 @@ namespace Catalog
         public static IServiceCollection AddCatalogModule(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
+            serviceCollection.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(CatalogModule).Assembly);
+               
+            });
 
-            serviceCollection.AddDbContext<CatalogDbContext>(
-                options => options.UseNpgsql(connectionString));
+            serviceCollection.AddScoped<ISaveChangesInterceptor, AuditableEnitityInterceptors>();
+            serviceCollection.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+            serviceCollection.AddDbContext<CatalogDbContext>((service, options) =>
+            {
+                options.AddInterceptors(service.GetServices<ISaveChangesInterceptor>());
+                options.UseNpgsql(connectionString);
+            });
+
+              
 
             serviceCollection.AddScoped<IDataSeeder, CatalogDataSeeder>();
 
@@ -23,16 +40,10 @@ namespace Catalog
         }
         public static IApplicationBuilder UseCatalogModule(this IApplicationBuilder app)
         {
-            InitializeDatabaseAsync(app).GetAwaiter().GetResult();
+            app.UseMigration<CatalogDbContext>();
             return app;
         }
 
-        private static async Task  InitializeDatabaseAsync(IApplicationBuilder app)
-        {
-           var scope = app.ApplicationServices.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-            await dbContext.Database.MigrateAsync ();
-        }
     }
    
     
