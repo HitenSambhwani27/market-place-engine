@@ -17,10 +17,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Products\Features\DeleteProduct\" />
-    <Folder Include="Products\Features\GetProductByCategory\" />
     <Folder Include="Products\Features\GetProducts\" />
-    <Folder Include="Products\Features\GetProductsById\" />
   </ItemGroup>
 
 </Project>
