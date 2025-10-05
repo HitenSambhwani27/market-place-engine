@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Products.Event_Handlers
 {
-    public class ProductPriceChnagedEventHandler(Logger<ProductPriceChnagedEventHandler> logger) : INotificationHandler<ProductPriceChangedEvent>
+    public class ProductPriceChnagedEventHandler(ILogger<ProductPriceChnagedEventHandler> logger) : INotificationHandler<ProductPriceChangedEvent>
     {
         public Task Handle(ProductPriceChangedEvent notification, CancellationToken cancellationToken)
         {

@@ -1,5 +1,6 @@
 ﻿using Catalog.Data;
 using Catalog.Data.Seed;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shared.Extensions;
 using Shared.Interceptors;
 using Shared.Seed;
+using System.Reflection;
 
 namespace Catalog
 {
@@ -16,12 +18,13 @@ namespace Catalog
     {
         public static IServiceCollection AddCatalogModule(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
             serviceCollection.AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(typeof(CatalogModule).Assembly);
-               
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
             });
+            serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             serviceCollection.AddScoped<ISaveChangesInterceptor, AuditableEnitityInterceptors>();
             serviceCollection.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
