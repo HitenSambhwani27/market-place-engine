@@ -18,7 +18,6 @@ namespace Catalog.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("catalog")
                 .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -42,13 +41,11 @@ namespace Catalog.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
@@ -58,15 +55,14 @@ namespace Catalog.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", "catalog");
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }

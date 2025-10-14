@@ -6,6 +6,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Catalog.Products.Features.GetProducts
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products", async (ISender sender) =>
+            app.MapGet("/products", async ([FromServices] ISender sender) =>
             {
                 var result = await sender.Send(new GetProductsQuery());
                 var response = result.Adapt<GetProductResponse>();

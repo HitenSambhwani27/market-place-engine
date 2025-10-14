@@ -22,6 +22,8 @@
     <ProjectReference Include="..\..\Basket\Basket\Basket.csproj" />
     <ProjectReference Include="..\..\Catalog\Catalog\Catalog.csproj" />
     <ProjectReference Include="..\..\Ordering\Ordering.csproj" />
+	  
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

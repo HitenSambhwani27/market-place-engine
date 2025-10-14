@@ -4,6 +4,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.CQRS;
 using System;
@@ -20,7 +21,7 @@ namespace Catalog.Products.Features.CreateProduct
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("/products", async (CreateProductRequest request, ISender sender) =>
+            app.MapPost("/products", async ([FromBody] CreateProductRequest request, [FromServices] ISender sender) =>
             {
                 var command = request.Adapt<CreateProductCommand>();
                 var result = await sender.Send(command);

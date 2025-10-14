@@ -14,15 +14,15 @@ using System.Threading.Tasks;
 
 namespace Catalog.Products.Features.UpdateProducts
 {
-    public record UpdateProductCommand(ProductDto ProductDto);
+    public record UpdateProductEndpointCommand(ProductDto productDto);
     public record UpdateProductResponse(bool success);
     public class UpdateProductEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPut("/productUpdate/{id}", async (UpddateProductCommand request, ISender sender) =>
+            app.MapPut("/productUpdate/{id}", async (UpdateProductEndpointCommand request, ISender sender) =>
             {
-                var command = request.Adapt<UpddateProductCommand>();
+                var command = request.Adapt<UpdateProductCommand>();
                 var result = await sender.Send(command);
 
                 var response = result.Adapt<UpdateProductResponse>();
