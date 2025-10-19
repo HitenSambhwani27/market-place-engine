@@ -2,6 +2,9 @@ services:
   market-place-db:
     image: postgres
 
+  seq:
+    image: datalust/seq:latest
+
 
 volumes: 
   postgres_market_place_db:

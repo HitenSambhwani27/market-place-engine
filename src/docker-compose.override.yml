@@ -10,3 +10,12 @@ services:
    - "5432:5432"
    volumes: 
    - postgres_market_place_db:/var/lib/postgresql/data
+
+  seq:
+   container_name: seq
+   environment:
+    - ACCEPT_EULA=Y
+   restart: always
+   ports:
+    - "5341:5431"
+    - "9091:80"

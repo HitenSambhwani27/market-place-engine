@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Extensions
 {
-    public  static class Extensions
+    public static class Extensions
     {
         public static IApplicationBuilder UseMigration<T>(this IApplicationBuilder app) where T : DbContext
         {
